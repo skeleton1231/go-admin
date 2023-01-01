@@ -31,6 +31,8 @@ antd demo：[https://antd.go-admin.pro](https://antd.go-admin.pro/)
 > 
 ## ✨ Feature
 
+- E-commer Erp System Building
+
 - Follow RESTful API design specifications
 
 - Based on the GIN WEB API framework, it provides rich middleware support (user authentication, cross-domain, access log, tracking ID, etc.)
