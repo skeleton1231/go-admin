@@ -1,21 +1,27 @@
 package router
 
 import (
-	"go-admin/app/admin/apis"
-
 	"github.com/gin-gonic/gin"
 	jwt "github.com/go-admin-team/go-admin-core/sdk/pkg/jwtauth"
+
+	"go-admin/app/admin/apis"
+	"go-admin/common/middleware"
+	"go-admin/common/actions"
 )
 
 func init() {
 	routerCheckRole = append(routerCheckRole, registerArticleRouter)
 }
 
-// 需认证的路由代码
+// registerArticleRouter
 func registerArticleRouter(v1 *gin.RouterGroup, authMiddleware *jwt.GinJWTMiddleware) {
 	api := apis.Article{}
-	r := v1.Group("")
+	r := v1.Group("/article").Use(authMiddleware.MiddlewareFunc()).Use(middleware.AuthCheckRole())
 	{
-		r.GET("/articleList", api.GetArticleList)
+		r.GET("", actions.PermissionAction(), api.GetPage)
+		r.GET("/:id", actions.PermissionAction(), api.Get)
+		r.POST("", api.Insert)
+		r.PUT("/:id", actions.PermissionAction(), api.Update)
+		r.DELETE("", api.Delete)
 	}
 }
